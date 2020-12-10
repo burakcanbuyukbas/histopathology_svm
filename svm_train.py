@@ -5,19 +5,27 @@ import pickle
 import h5py
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import confusion_matrix
+import result
+from utils import load_test
+
+X_train = np.load("data/nopca/X_train.npy")
+print(X_train.shape)
+Y_train = np.load("data/nopca/Y_train.npy")
+print(Y_train.shape)
 
 
+X_test, Y_test = load_test()
+print(X_test.shape)
+print(Y_test.shape)
+#.flatten().reshape(size, 7500)
 
-X_train = np.load("X_train.npy")
-Y_train = np.load("data/nopca/Y_train.npy")[0:200000]
-
-svc = SVC(kernel='rbf', gamma='auto', verbose=True, max_iter=1000000)
+svc = SVC(kernel='rbf', gamma='auto', verbose=True, max_iter=10000000000)
 svc.fit(X_train, Y_train)
 
 #print(clf.score(X_train, Y_train))
 
 # save the classifier
-with open('model3.pkl', 'wb') as savedmodel:
+with open('model5.pkl', 'wb') as savedmodel:
     pickle.dump(svc, savedmodel)
 
 x_test = np.load("X_test.npy")
@@ -31,3 +39,5 @@ print(f'training set: true negatives: {tn}')
 print(f'training set: true positives: {tp}')
 print(f'training set: false negatives: {fn}')
 print(f'training set: false positives: {fp}')
+
+result.plot_graph(svc, x_test, y_test)

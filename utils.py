@@ -10,14 +10,15 @@ import h5py
 from tqdm import tqdm
 import os
 
+data_path = r'D:\Users\Burak\histopathology'
+
 
 def get_data():
     X = []
     Y = []
     count = 0
 
-    path = r'D:\Users\Burak\histopathology'
-    patches = glob(path + '/IDC_regular_ps50_idx5/**/*.png', recursive=True)
+    patches = glob(data_path + '/IDC_regular_ps50_idx5/**/*.png', recursive=True)
     for filename in patches[0:10]:
         print(filename)
 
@@ -112,9 +113,12 @@ def load_train():
     return X_Train, Y_Train
 
 def load_test():
+    path = r'C:\Users\Burak\PycharmProjects\histopathology'
+
     print("Loading data...")
-    X_Test = np.load('X_test.npy', mmap_mode='r')
-    Y_Test = np.load('Y_test.npy', mmap_mode='r')
+
+    X_Test = np.load(path + '\X_test.npy', mmap_mode='r')
+    Y_Test = np.load(path + '\Y_test.npy', mmap_mode='r')
 
     print("Test Benign: " + str(np.count_nonzero(Y_Test == 0)))
     print("Test Malignant: " + str(np.count_nonzero(Y_Test == 1)))
@@ -200,12 +204,12 @@ def divideToFolders():
     print("X_test: " + str(np.array(X_test).shape))
     print("Y_test: " + str(np.array(Y_test).shape))
 
-def npy_to_h5(path="data/X_train.npy"):
+def npy_to_h5(path="X.npy"):
     print("Converting npy to h5... For reasons.")
     X = np.load(path, mmap_mode='r')
     size = X.shape[0]
     data = X.flatten().reshape(size, 7500)
 
-    with h5py.File('data/nopca/X.h5', 'w') as hf:
+    with h5py.File('X.h5', 'w') as hf:
         hf.create_dataset("data", data=data)
 

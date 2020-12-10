@@ -13,8 +13,8 @@ with open('model1.pkl', 'rb') as fin:
 
 print("Model loaded. Loading data.")
 
-X_test = np.load("data/X_test.npy")
-Y_test = np.load("data/Y_test.npy")
+X_test = np.load("data/nopca/X_test.npy")
+Y_test = np.load("data/nopca/Y_test.npy")
 
 size = X_test.shape[0]
 X_test = X_test.flatten().reshape(size*7500, 1)
